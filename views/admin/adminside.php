@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 'admin') {
     }
 }
 
-// Get statistics for admin dashboard
+// Mendapatkan total dari pesanan lalu ketika memencet tombol booking status nya pending. Lalu menghitung harga total 
 $statsQuery = "SELECT 
     COUNT(*) as total_bookings,
     SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending_bookings,
@@ -20,7 +20,7 @@ FROM bookings";
 $statsResult = $conn->query($statsQuery);
 $statistics = $statsResult->fetch_assoc();
 
-// Get bookings with user and room information
+//Mendapatkan booking dari isi dari semua tabel untuk booking
 $bookingsQuery = "SELECT 
     b.booking_id as id,
     b.created_at as booking_date,
@@ -45,7 +45,7 @@ ORDER BY b.created_at DESC";
 
 $bookings = $conn->query($bookingsQuery);
 
-// Handle status update
+
 if (isset($_POST['update_status'])) {
     $booking_id = $_POST['booking_id'];
     $new_status = $_POST['new_status'];
@@ -73,7 +73,7 @@ if (isset($_POST['update_status'])) {
     <style>
         .sidebar {
             min-height: 100vh;
-            background-color: #343a40;
+            background-color: #1DA1F2;
         }
 
         .sidebar .nav-link {
@@ -124,27 +124,9 @@ if (isset($_POST['update_status'])) {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="kelolakamar.php">
                                 <i class="fas fa-bed me-2"></i>
                                 Kelola Kamar
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-users me-2"></i>
-                                Kelola Pengguna
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-chart-line me-2"></i>
-                                Laporan
-                            </a>
-                        </li>
-                        <li class="nav-item mt-5">
-                            <a class="nav-link text-danger" href="../../logout.php">
-                                <i class="fas fa-sign-out-alt me-2"></i>
-                                Logout
                             </a>
                         </li>
                     </ul>

@@ -1,6 +1,6 @@
 <?php
-session_start();  // Memulai session
-require_once 'koneksi.php';  // Koneksi database
+session_start();  
+require_once 'koneksi.php';  
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -18,8 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = $result->fetch_assoc();
 
         if ($user && password_verify($password, $user['password'])) {
-          // Simpan data user di session - PERBAIKI NAMA KOLOM DI SINI
-          $_SESSION['user_id'] = $user['user_id'];  // Gunakan user_id, bukan id
+        
+          $_SESSION['user_id'] = $user['user_id']; 
           $_SESSION['username'] = $user['username'];
           $_SESSION['role'] = $user['role']; 
           

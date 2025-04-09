@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Pesona Indonesia - Pilihan Kamar</title>
+    <title>Hotel Shiro Indonesia - Pilihan Kamar</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
         }
         
         header {
-            background-color: #1a3c40;
+            background-color:#007BFF;
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -104,7 +104,7 @@
         .btn {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #1a3c40;
+            background-color: #007BFF;
             color: white;
             text-decoration: none;
             border-radius: 4px;
@@ -113,7 +113,7 @@
         }
         
         .btn:hover {
-            background-color: #2a5559;
+            background-color: #1DA1F2;
         }
         
         .view-all {
@@ -125,17 +125,17 @@
             padding: 12px 30px;
             font-size: 1.1rem;
             background-color: transparent;
-            color: #1a3c40;
-            border: 2px solid #1a3c40;
+            color: #007BFF;
+            border: 2px solid #007BFF;
         }
         
         .view-all-btn:hover {
-            background-color: #1a3c40;
+            background-color: #007BFF;
             color: white;
         }
         
         footer {
-            background-color: #1a3c40;
+            background-color: #007BFF;
             color: white;
             text-align: center;
             padding: 20px;
@@ -157,7 +157,7 @@
 </head>
 <body>
     <header>
-        <h1>Hotel Pesona Indonesia</h1>
+        <h1>Hotel Shiro</h1>
         <p class="subtitle">Kemewahan dan Kenyamanan dalam Satu Tempat</p>
     </header>
     
@@ -165,19 +165,19 @@
         <div class="room-cards">
             <div class="card">
                 <div class="card-image">
-                    <img src="/api/placeholder/400/320" alt="Standard Room">
+                <img src="../../Images/HotelStandar.jpeg" alt="Standard">
                 </div>
                 <div class="card-content">
-                    <h2 class="card-title">Kamar Unggulan</h2>
+                    <h2 class="card-title">Kamar Standar</h2>
                     <p class="card-description">Kamar nyaman dengan tempat tidur queen size, ideal untuk perjalanan bisnis atau liburan singkat.</p>
                     <p class="card-price">Rp 500.000/malam</p>
-                    <a href="../client/detailkamarunggul.php" class="btn">Lihat Detail</a>
+                    <a href="../client/detailkamarstandar.php" class="btn">Lihat Detail</a>
                 </div>
             </div>
             
             <div class="card">
                 <div class="card-image">
-                    <img src="/api/placeholder/400/320" alt="Deluxe Room">
+                    <img src="../../Images/HotelDeluxe.jpeg" alt="Deluxe">
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">Deluxe Room</h2>
@@ -189,7 +189,7 @@
             
             <div class="card">
                 <div class="card-image">
-                    <img src="/api/placeholder/400/320" alt="Suite Room">
+                    <img src="../../Images/HotelSuite.jpeg" alt="Suite Room">
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">Suite Room</h2>
@@ -201,7 +201,7 @@
         
             <div class="card">
                 <div class="card-image">
-                    <img src="/api/placeholder/400/320" alt="Family Room">
+                    <img src="../../Images/HotelFamily.jpeg" alt="Family Room">
                 </div>
                 <div class="card-content">
                     <h2 class="card-title">Family</h2>
@@ -218,7 +218,7 @@
     </div>
     
     <footer>
-        <p>&copy; 2025 Hotel Pesona Indonesia. Semua hak dilindungi.</p>
+        <p>&copy; 2025 Hotel Shiro. Semua hak dilindungi.</p>
     </footer>
 </body>
 </html> 

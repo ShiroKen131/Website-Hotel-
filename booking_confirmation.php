@@ -1,16 +1,16 @@
 <?php
-// Start session to manage user login state
+
 session_start();
 
 include 'koneksi.php';
 
-// Check if user is logged in
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.php?redirect=booking_confirmation.php?" . $_SERVER['QUERY_STRING']);
     exit;
 }
 
-// Get booking ID from URL
+//mendapatkan booking id dari url didapat dari pemesanan ketika sudah dipencet 
 $booking_id = isset($_GET['booking_id']) ? intval($_GET['booking_id']) : 0;
 
 $sql = "SELECT b.*, r.room_number, rt.name as room_type, rt.image_url, 
@@ -33,7 +33,7 @@ if ($result->num_rows == 0) {
 
 $booking = $result->fetch_assoc();
 
-// Calculate number of nights
+// menghitung jumlah dia menginap berapa hari 
 $check_in_date = new DateTime($booking['check_in_date']);
 $check_out_date = new DateTime($booking['check_out_date']);
 $nights = date_diff($check_in_date, $check_out_date)->days;
@@ -44,7 +44,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konfirmasi Pemesanan - Hotel Pesona Indonesia</title>
+    <title>Konfirmasi Pemesanan - Hotel Shiro</title>
     <style>
         * {
             margin: 0;
@@ -60,7 +60,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         header {
-            background-color: #1a3c40;
+            background-color: #1a6efd;
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -91,7 +91,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         .confirmation-header {
-            background-color: #1a3c40;
+            background-color: #0d6efd;
             color: white;
             padding: 30px;
             text-align: center;
@@ -124,14 +124,9 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
             height: 200px;
         }
         
-        .room-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
         
         .booking-details h3 {
-            color: #1a3c40;
+            color: #0d6efd;
             margin-bottom: 20px;
             font-size: 1.4rem;
         }
@@ -166,7 +161,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         .price-details h3 {
-            color: #1a3c40;
+            color: #0d6efd;
             margin-bottom: 15px;
             font-size: 1.3rem;
         }
@@ -192,11 +187,11 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
             padding: 20px;
             background: #e9f5f5;
             border-radius: 8px;
-            border-left: 4px solid #1a3c40;
+            border-left: 4px solid #0d6efd;
         }
         
         .important-info h3 {
-            color: #1a3c40;
+            color: #0d6efd;
             margin-bottom: 15px;
             font-size: 1.3rem;
         }
@@ -219,7 +214,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
             flex: 1;
             display: inline-block;
             padding: 15px 20px;
-            background-color: #1a3c40;
+            background-color: #0d6efd;
             color: white;
             text-decoration: none;
             border-radius: 4px;
@@ -230,12 +225,12 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         
         .action-button.secondary {
             background-color: #fff;
-            color: #1a3c40;
-            border: 1px solid #1a3c40;
+            color: #1DA1F2;
+            border: 1px solid #0d6efd;
         }
         
         .action-button:hover {
-            background-color: #2a5559;
+            background-color: #1DA1F2;
         }
         
         .action-button.secondary:hover {
@@ -243,7 +238,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         footer {
-            background-color: #1a3c40;
+            background-color: #0d6efd;
             color: white;
             text-align: center;
             padding: 20px;
@@ -300,10 +295,6 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
             margin-top: 30px;
         }
         
-        .qr-code img {
-            max-width: 150px;
-            margin-bottom: 10px;
-        }
         
         .qr-code p {
             font-size: 0.9rem;
@@ -313,7 +304,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
 </head>
 <body>
     <header>
-        <h1>Hotel Pesona Indonesia</h1>
+        <h1>Hotel Shiro</h1>
         <p class="subtitle">Konfirmasi Pemesanan</p>
     </header>
     
@@ -321,14 +312,11 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         <div class="confirmation-card">
             <div class="confirmation-header">
                 <h2>Pemesanan Berhasil!</h2>
-                <p>Terima kasih telah memilih Hotel Pesona Indonesia</p>
+                <p>Terima kasih telah memilih Hotel Shiro</p>
             </div>
             
             <div class="confirmation-body">
                 <div class="booking-info">
-                    <div class="room-image">
-                        <img src="<?php echo htmlspecialchars($booking['image_url'] ?: '/api/placeholder/400/200'); ?>" alt="<?php echo htmlspecialchars($booking['room_type']); ?>">
-                    </div>
                     
                     <div class="booking-details">
                         <h3>Detail Pemesanan</h3>
@@ -393,10 +381,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
                     </div>
                 </div>
                 
-                <div class="qr-code">
-                    <img src="/api/placeholder/150/150" alt="QR Code">
-                    <p>Tunjukkan QR code ini saat check-in</p>
-                </div>
+
                 
                 <div class="action-buttons">
                     <a href="javascript:window.print();" class="action-button secondary">Cetak Konfirmasi</a>
@@ -407,7 +392,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
     </div>
     
     <footer>
-        <p>&copy; 2025 Hotel Pesona Indonesia. Semua hak dilindungi.</p>
+        <p>&copy; 2025 Hotel Shiro. Semua hak dilindungi.</p>
     </footer>
 </body>
 </html>

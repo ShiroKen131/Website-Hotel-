@@ -4,7 +4,7 @@ session_start();
 
 include '../../koneksi.php';
 
-// Get room details for rooms 201 and 202
+//mencari kamar nomor 201 dan 202 menggunakan join
 $sql = "SELECT r.room_id, r.room_number, rt.name as room_type, rt.description, 
         rt.max_capacity, rt.price_per_night, rt.image_url
         FROM rooms r
@@ -22,12 +22,10 @@ if ($result->num_rows > 0) {
     exit;
 }
 
-// Process booking form
 $booking_message = "";
 $booking_status = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
-    // Check if user is logged in
     if (!isset($_SESSION['user_id'])) {
         $booking_status = "error";
         $booking_message = "Silahkan login terlebih dahulu untuk melakukan pemesanan.";
@@ -38,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
         $check_out = $_POST['check_out'];
         $special_requests = $_POST['special_requests'];
         
-        // Get both room IDs for 201 and 202
+        // Mendapatkan 2 kamar yaitu kamar nomor 201 dan 202
         $room_201_id = null;
         $room_202_id = null;
         foreach ($rooms as $r) {
@@ -49,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
             }
         }
         
-        // Validate dates
+        // Konfirmasi tanggal check in dan check out
         $today = date('Y-m-d');
         $check_in_date = new DateTime($check_in);
         $check_out_date = new DateTime($check_out);
@@ -62,7 +60,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
             $booking_status = "error";
             $booking_message = "Tanggal check-out harus setelah tanggal check-in.";
         } else {
-            // Function to check room availability
+
+
+            // Function untuk ngecheck apakah ada kamar kosong/ bisa jadi kamar sudah diisi
             function checkRoomAvailability($conn, $room_id, $check_in, $check_out) {
                 $availability_sql = "SELECT COUNT(*) as booked FROM bookings 
                 WHERE room_id = ? 
@@ -79,40 +79,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
                 $availability_result = $stmt->get_result();
                 $availability = $availability_result->fetch_assoc();
                 
-                return $availability['booked'] == 0; // Return true if room is available
+                return $availability['booked'] == 0; 
             }
             
-            // Check availability for room 201 first (regardless of selected_room_id)
+            // Ngecek kamar 201 
             $room201_available = checkRoomAvailability($conn, $room_201_id, $check_in, $check_out);
             
-            // If room 201 is available, book it
+            // jika 201 ada maka bisa dipesan
             if ($room201_available) {
                 $room_id_to_book = $room_201_id;
                 $room_number_booked = "201";
             } else {
-                // If room 201 is not available, check room 202
+                // Jika 201 sudah dipesan maka ngecek kamar 202
                 $room202_available = checkRoomAvailability($conn, $room_202_id, $check_in, $check_out);
                 
                 if ($room202_available) {
                     $room_id_to_book = $room_202_id;
                     $room_number_booked = "202";
                 } else {
-                    // Neither room is available
+                    // jika kamar 201 dan 202 sudah dipesan maka nggak bisa dipesan
                     $booking_status = "error";
                     $booking_message = "Kamar 201 dan 202 tidak tersedia pada tanggal yang dipilih.";
                     $room_id_to_book = null;
                 }
             }
             
-            // If we have a room to book
             if ($room_id_to_book) {
-                // Call the stored procedure to book the room
+                // memanggil stored procedure book_room 
                 $proc_sql = "CALL book_room(?, ?, ?, ?, ?, @booking_id)";
                 $stmt = $conn->prepare($proc_sql);
                 $stmt->bind_param("iisss", $user_id, $room_id_to_book, $check_in, $check_out, $special_requests);
                 $stmt->execute();
                 
-                // Get the output parameter
+
                 $result = $conn->query("SELECT @booking_id as booking_id");
                 $row = $result->fetch_assoc();
                 $booking_id = $row['booking_id'];
@@ -133,7 +132,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
     }
 }
 
-// Get current user data if logged in
 $user = null;
 if (isset($_SESSION['user_id'])) {
     $user_sql = "SELECT * FROM users WHERE user_id = ?";
@@ -151,7 +149,7 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deluxe Room - Hotel Pesona Indonesia</title>
+    <title>Deluxe Room - Hotel Shiro</title>
     <style>
         * {
             margin: 0;
@@ -167,7 +165,7 @@ if (isset($_SESSION['user_id'])) {
         }
         
         header {
-            background-color: #1a3c40;
+            background-color: #0d6efd;
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -192,7 +190,7 @@ if (isset($_SESSION['user_id'])) {
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
-            color: #1a3c40;
+            color: #0d6efd;
             text-decoration: none;
             font-weight: 500;
         }
@@ -238,14 +236,14 @@ if (isset($_SESSION['user_id'])) {
         
         .room-title {
             font-size: 2rem;
-            color: #1a3c40;
+            color: #1DA1F2;
             margin-bottom: 10px;
         }
         
         .room-price {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #1a3c40;
+            color: #1DA1F2;
             margin-bottom: 20px;
         }
         
@@ -262,7 +260,7 @@ if (isset($_SESSION['user_id'])) {
         .facilities h3 {
             font-size: 1.3rem;
             margin-bottom: 15px;
-            color: #1a3c40;
+            color: #1DA1F2;
         }
         
         .facilities-list {
@@ -280,7 +278,7 @@ if (isset($_SESSION['user_id'])) {
         .cta-button {
             display: inline-block;
             padding: 15px 30px;
-            background-color: #1a3c40;
+            background-color: #0d6efd;
             color: white;
             text-decoration: none;
             border-radius: 4px;
@@ -292,11 +290,11 @@ if (isset($_SESSION['user_id'])) {
         }
         
         .cta-button:hover {
-            background-color: #2a5559;
+            background-color: #1DA1F2;
         }
         
         footer {
-            background-color: #1a3c40;
+            background-color: #0d6efd;
             color: white;
             text-align: center;
             padding: 20px;
@@ -327,7 +325,7 @@ if (isset($_SESSION['user_id'])) {
         }
         
         .booking-form h3 {
-            color: #1a3c40;
+            color: #1DA1F2;
             margin-bottom: 1.5rem;
             font-size: 1.5rem;
         }
@@ -355,7 +353,7 @@ if (isset($_SESSION['user_id'])) {
         
         .form-group input:focus, 
         .form-group textarea:focus {
-            border-color: #1a3c40;
+            border-color: #1DA1F2;
             outline: none;
         }
         
@@ -376,9 +374,9 @@ if (isset($_SESSION['user_id'])) {
         }
         
         .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background-color: #0d6efd;
+            color: #1DA1F2;
+            border: 1px solid #0d6efd;
         }
         
         .alert-error {
@@ -414,9 +412,9 @@ if (isset($_SESSION['user_id'])) {
         }
         
         .available {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background-color: #87CEEB;
+            color: white;
+            border: 1px solid  #87CEEB;
         }
         
         .unavailable {
@@ -428,7 +426,7 @@ if (isset($_SESSION['user_id'])) {
 </head>
 <body>
     <header>
-        <h1>Hotel Pesona Indonesia</h1>
+        <h1>Hotel Shiro</h1>
         <p class="subtitle">Kemewahan dan Kenyamanan dalam Satu Tempat</p>
     </header>
     
@@ -468,13 +466,10 @@ if (isset($_SESSION['user_id'])) {
         <div class="room-details">
             <div class="room-gallery">
                 <div class="main-image">
-                    <img src="<?php echo htmlspecialchars($room['image_url'] ?: '/api/placeholder/800/400'); ?>" alt="<?php echo htmlspecialchars($room['room_type']); ?>">
+                <img src="../../Images/HotelDeluxe.jpeg">
                 </div>
                 <div class="small-image">
-                    <img src="/api/placeholder/400/200" alt="<?php echo htmlspecialchars($room['room_type']); ?> Bathroom">
-                </div>
-                <div class="small-image">
-                    <img src="/api/placeholder/400/200" alt="<?php echo htmlspecialchars($room['room_type']); ?> View">
+                <img src="../../Images/Deluxe.jpeg">
                 </div>
             </div>
             
@@ -577,7 +572,7 @@ if (isset($_SESSION['user_id'])) {
     </div>
     
     <footer>
-        <p>&copy; 2025 Hotel Pesona Indonesia. Semua hak dilindungi.</p>
+        <p>&copy; 2025 Hotel Shiro. Semua hak dilindungi.</p>
     </footer>
 
     <script>

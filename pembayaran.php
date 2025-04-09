@@ -1,10 +1,10 @@
 <?php
-// Start session to manage user login state
+
 session_start();
 
 include 'koneksi.php';
 
-// Check if user is logged in
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.php?redirect=payment.php?" . $_SERVER['QUERY_STRING']);
     exit;
@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id'])) {
 // Get booking ID from URL
 $booking_id = isset($_GET['booking_id']) ? intval($_GET['booking_id']) : 0;
 
-// Get booking details
+// Mendapatkan informasi tentang booking berdasarkan username ruangan dan nomor ruangannya
 $sql = "SELECT b.*, r.room_number, rt.name as room_type, rt.price_per_night, username as user_name
         FROM bookings b
         JOIN rooms r ON b.room_id = r.room_id
@@ -33,7 +33,6 @@ if ($result->num_rows == 0) {
 
 $booking = $result->fetch_assoc();
 
-// Process payment form
 $payment_message = "";
 $payment_status = "";
 
@@ -41,11 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_payment'])) {
     $payment_method = $_POST['payment_method'];
     $payment_proof = "";
     
-    // Handle file upload for payment proof if needed
     if (isset($_FILES['payment_proof']) && $_FILES['payment_proof']['error'] == 0) {
         $target_dir = "uploads/payment_proofs/";
         
-        // Create directory if it doesn't exist
         if (!file_exists($target_dir)) {
             mkdir($target_dir, 0777, true);
         }
@@ -63,28 +60,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_payment'])) {
     }
     
     if (empty($payment_status)) {
-        // Map the payment method from form to database values
         $payment_method_mapping = [
             'bank_transfer' => 'transfer',
             'credit_card' => 'credit_card',
-            'e_wallet' => 'transfer'  // You might want a better mapping here
+            'e_wallet' => 'transfer'  
         ];
         
-        // Get the correct payment method value for the database
+
         $db_payment_method = isset($payment_method_mapping[$payment_method]) ? 
-            $payment_method_mapping[$payment_method] : 'transfer'; // Default as fallback
+            $payment_method_mapping[$payment_method] : 'transfer'; 
         
-        // Begin transaction
+
         $conn->begin_transaction();
         
         try {
-            // Update booking status to confirmed
+     
             $update_booking_sql = "UPDATE bookings SET status = 'confirmed' WHERE booking_id = ?";
             $stmt = $conn->prepare($update_booking_sql);
             $stmt->bind_param("i", $booking_id);
             $stmt->execute();
             
-            // Insert payment record
+           
             $insert_payment_sql = "INSERT INTO payments (booking_id, amount, payment_method, status, transaction_id) 
                                   VALUES (?, ?, ?, 'completed', ?)";
             $stmt = $conn->prepare($insert_payment_sql);
@@ -92,16 +88,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_payment'])) {
             $stmt->bind_param("idss", $booking_id, $booking['total_price'], $db_payment_method, $transaction_id);
             $stmt->execute();
             
-            // Commit transaction
+
             $conn->commit();
             
             $payment_status = "success";
             $payment_message = "Pembayaran berhasil! Pemesanan Anda telah dikonfirmasi.";
             
-            // Redirect to booking confirmation page after successful payment
+
             header("refresh:3;url=booking_confirmation.php?booking_id=" . $booking_id);
         } catch (Exception $e) {
-            // Rollback transaction on error
+    
             $conn->rollback();
             $payment_status = "error";
             $payment_message = "Terjadi kesalahan saat memproses pembayaran: " . $e->getMessage();
@@ -109,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_payment'])) {
     }
 }
 
-// Calculate number of nights
+
 $check_in_date = new DateTime($booking['check_in_date']);
 $check_out_date = new DateTime($booking['check_out_date']);
 $nights = date_diff($check_in_date, $check_out_date)->days;
@@ -120,7 +116,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembayaran - Hotel Pesona Indonesia</title>
+    <title>Pembayaran - Hotel Shiro</title>
     <style>
         * {
             margin: 0;
@@ -136,7 +132,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         header {
-            background-color: #1a3c40;
+            background-color: #0d6efd;
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -161,7 +157,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         .back-link {
             display: inline-block;
             margin-bottom: 20px;
-            color: #1a3c40;
+            color: #0d6efd;
             text-decoration: none;
             font-weight: 500;
         }
@@ -186,7 +182,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         .booking-summary h2 {
-            color: #1a3c40;
+            color: #0d6efd;
             margin-bottom: 20px;
             font-size: 1.5rem;
         }
@@ -237,7 +233,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         .payment-options h2 {
-            color: #1a3c40;
+            color: #0d6efd;
             margin-bottom: 20px;
             font-size: 1.5rem;
         }
@@ -268,10 +264,10 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         .payment-methods {
-            display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
+
         }
         
         .payment-method {
@@ -284,11 +280,11 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         .payment-method:hover {
-            border-color: #1a3c40;
+            border-color: #0d6efd;
         }
         
         .payment-method.active {
-            border-color: #1a3c40;
+            border-color: #0d6efd;
             background-color: rgba(26, 60, 64, 0.05);
         }
         
@@ -302,11 +298,11 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
             padding: 20px;
             background: #f8f8f8;
             border-radius: 8px;
-            border-left: 4px solid #1a3c40;
+            border-left: 4px solid #0d6efd;
         }
         
         .bank-details h3 {
-            color: #1a3c40;
+            color: #0d6efd;
             margin-bottom: 15px;
         }
         
@@ -321,7 +317,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         .cta-button {
             display: inline-block;
             padding: 15px 30px;
-            background-color: #1a3c40;
+            background-color: #0d6efd;
             color: white;
             text-decoration: none;
             border-radius: 4px;
@@ -335,7 +331,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         .cta-button:hover {
-            background-color: #2a5559;
+            background-color: #1DA1F2;
         }
         
         .alert {
@@ -347,7 +343,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         
         .alert-success {
             background-color: #d4edda;
-            color: #155724;
+            color: #1DA1F2;
             border: 1px solid #c3e6cb;
         }
         
@@ -358,7 +354,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         footer {
-            background-color: #1a3c40;
+            background-color: #0d6efd;
             color: white;
             text-align: center;
             padding: 20px;
@@ -378,7 +374,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
 </head>
 <body>
 <header>
-        <h1>Hotel Pesona Indonesia</h1>
+        <h1>Hotel Shiro</h1>
         <p class="subtitle">Pembayaran Reservasi</p>
     </header>
     
@@ -430,10 +426,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
                         <div>Jumlah malam</div>
                         <div><?php echo $nights; ?> malam</div>
                     </div>
-                    <div class="price-row">
-                        <div>Pajak dan layanan (10%)</div>
-                        <div>Rp <?php echo number_format($booking['total_price'] * 0.1, 0, ',', '.'); ?></div>
-                    </div>
+    
                     <div class="price-total">
                         <div>Total Pembayaran</div>
                         <div>Rp <?php echo number_format($booking['total_price'], 0, ',', '.'); ?></div>
@@ -447,16 +440,8 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
                 <form method="post" action="" enctype="multipart/form-data" class="payment-form">
                     <div class="payment-methods">
                         <div class="payment-method" onclick="selectPaymentMethod('bank_transfer')">
-                            <img src="/api/placeholder/70/40" alt="Bank Transfer">
+                
                             <div class="method-name">Transfer Bank</div>
-                        </div>
-                        <div class="payment-method" onclick="selectPaymentMethod('credit_card')">
-                            <img src="/api/placeholder/70/40" alt="Credit Card">
-                            <div class="method-name">Kartu Kredit</div>
-                        </div>
-                        <div class="payment-method" onclick="selectPaymentMethod('e_wallet')">
-                            <img src="/api/placeholder/70/40" alt="E-Wallet">
-                            <div class="method-name">E-Wallet</div>
                         </div>
                     </div>
                     
@@ -464,9 +449,9 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
                     
                     <div class="bank-details" id="bank_transfer_details">
                         <h3>Informasi Transfer Bank</h3>
-                        <p><strong>Bank:</strong> Bank Pesona Indonesia</p>
+                        <p><strong>Bank:</strong> Bank Shiro</p>
                         <p><strong>No. Rekening:</strong> 1234567890</p>
-                        <p><strong>Atas Nama:</strong> PT Hotel Pesona Indonesia</p>
+                        <p><strong>Atas Nama:</strong> PT Hotel Shiro</p>
                         <p>Harap transfer sesuai jumlah yang tertera dan unggah bukti pembayaran Anda.</p>
                     </div>
                     
@@ -480,7 +465,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
                         <h3>Informasi E-Wallet</h3>
                         <p><strong>OVO/GoPay/DANA/LinkAja</strong></p>
                         <p><strong>No.:</strong> 087712345678</p>
-                        <p><strong>Atas Nama:</strong> Hotel Pesona Indonesia</p>
+                        <p><strong>Atas Nama:</strong> Hotel Shiro</p>
                         <p>Harap transfer sesuai jumlah yang tertera dan unggah bukti pembayaran Anda.</p>
                     </div>
                     
@@ -501,17 +486,17 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
 
     <script>
         function selectPaymentMethod(method) {
-            // Update hidden input
+
             document.getElementById('payment_method').value = method;
             
-            // Update UI
+
             document.querySelectorAll('.payment-method').forEach(function(element) {
                 element.classList.remove('active');
             });
             
             event.currentTarget.classList.add('active');
             
-            // Show/hide appropriate details
+
             document.getElementById('bank_transfer_details').style.display = 'none';
             document.getElementById('credit_card_details').style.display = 'none';
             document.getElementById('e_wallet_details').style.display = 'none';
@@ -519,7 +504,7 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
             document.getElementById(method + '_details').style.display = 'block';
         }
         
-        // Set default payment method as active
+
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.payment-method').classList.add('active');
         });

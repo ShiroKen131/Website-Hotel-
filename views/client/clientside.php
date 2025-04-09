@@ -1,15 +1,16 @@
-
 <?php
 session_start();  // Memulai session
 
-
-// Ambil data dari session
+include '../../koneksi.php';
+// Ambil database
 $username = $_SESSION['username'];  // Mengambil username dari session
-
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,71 +19,82 @@ $username = $_SESSION['username'];  // Mengambil username dari session
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/hotel-banner.jpg');
+            background-image: url("../../images/Dashboard.jpeg");
             background-size: cover;
             background-position: center;
-            height: 70vh;
+            height: 100vh;
             color: white;
             display: flex;
             align-items: center;
         }
+
         .room-card {
             transition: transform 0.3s;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+
         .room-card:hover {
             transform: translateY(-5px);
         }
+
         .search-form {
             background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             margin-top: -50px;
         }
+
         .feature-icon {
             font-size: 2rem;
             color: #0d6efd;
             margin-bottom: 10px;
         }
+
         .review-card {
             padding: 15px;
             border-radius: 5px;
             margin-bottom: 15px;
             background-color: #f8f9fa;
         }
+
         footer {
             background-color: #343a40;
             color: white;
             padding: 40px 0;
         }
+
+        .iframe-container {
+            position: relative;
+            overflow: hidden;
+            right:-250px ;
+        }
+
+        
+  @media screen and (max-width: 768px) {
+    .iframe-container{
+        right: 0;
+    }
+    }
     </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="index.php">Hotel Paradise</a>
+            <a class="navbar-brand">Hotel Shiro</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.php">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="rooms.php">Kamar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="facilities.php">Fasilitas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.php">Kontak</a>
+                        <a class="nav-link" href="listkamar.php">Kamar</a>
                     </li>
                 </ul>
-                    <h5 id="profile-name" style="color:#f8f9fa"><?php echo htmlspecialchars($username); ?></h5>
+                <h5 id="profile-name" style="color:#f8f9fa"><?php echo htmlspecialchars($username); ?></h5>
             </div>
         </div>
     </nav>
@@ -90,76 +102,35 @@ $username = $_SESSION['username'];  // Mengambil username dari session
     <!-- Hero Section -->
     <div class="hero-section">
         <div class="container text-center">
-            <h1 class="display-4 fw-bold">Selamat Datang di Hotel Paradise</h1>
+            <h1 class="display-4 fw-bold">Selamat Datang di Hotel Shiro</h1>
             <p class="lead">Nikmati pengalaman menginap tak terlupakan dengan fasilitas mewah dan pelayanan terbaik</p>
         </div>
     </div>
 
-    <!-- Search Form -->
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
-                <form class="search-form" action="cari_kamar.php" method="GET">
-                    <div class="row align-items-end">
-                        <div class="col-md-3">
-                            <label class="form-label">Check-in</label>
-                            <input type="date" class="form-control" name="check_in" required min="<?php echo date('Y-m-d'); ?>">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Check-out</label>
-                            <input type="date" class="form-control" name="check_out" required min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">Tamu</label>
-                            <select class="form-select" name="guests">
-                                <option value="1">1 Tamu</option>
-                                <option value="2" selected>2 Tamu</option>
-                                <option value="3">3 Tamu</option>
-                                <option value="4">4 Tamu</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">Tipe Kamar</label>
-                            <select class="form-select" name="room_type">
-                                <option value="">Semua</option>
-                                <option value="1">Standard</option>
-                                <option value="2">Deluxe</option>
-                                <option value="3">Suite</option>
-                                <option value="4">Family</option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <a href="../../cari"><button class="btn btn-primary w-100">Cari Kamar</button></a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <!-- Featured Rooms -->
+  <!-- Kamar  -->
     <div class="container mt-5">
         <h2 class="text-center mb-4">Kamar Unggulan</h2>
         <div class="row">
-            <!-- Room Card 1 -->
+            <!-- Kamar Standard-->
             <div class="col-md-4">
                 <div class="card room-card">
-                    <img src="images/standard.jpg" class="card-img-top" alt="Standard Room">
+                    <img src="../../Images/HotelStandar.jpeg" class="card-img-top" alt="Standard Room">
                     <div class="card-body">
                         <h5 class="card-title">Standard Room</h5>
                         <p class="card-text">Kamar nyaman dengan tempat tidur queen size, ideal untuk perjalanan bisnis atau liburan singkat.</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="fw-bold">Rp 500.000/malam</span>
-                            <a href="../client/detailkamarunggul.php" class="btn btn-outline-primary">Lihat Detail</a>
+                            <a href="../client/detailkamarstandar.php" class="btn btn-outline-primary">Lihat Detail</a>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Room Card 2 -->
+
+            <!-- Kamar deluxe-->
             <div class="col-md-4">
                 <div class="card room-card">
-                    <img src="images/deluxe.jpg" class="card-img-top" alt="Deluxe Room">
+                    <img src="../../Images/HotelDeluxe.jpeg" class="card-img-top" alt="Deluxe Room">
                     <div class="card-body">
                         <h5 class="card-title">Deluxe Room</h5>
                         <p class="card-text">Kamar luas dengan tempat tidur king size, pemandangan kota, dan fasilitas premium.</p>
@@ -170,11 +141,11 @@ $username = $_SESSION['username'];  // Mengambil username dari session
                     </div>
                 </div>
             </div>
-            
-            <!-- Room Card 3 -->
+
+            <!-- Kamar suite -->
             <div class="col-md-4">
                 <div class="card room-card">
-                    <img src="images/suite.jpg" class="card-img-top" alt="Suite Room">
+                    <img src="../../Images/HotelSuite.jpeg" class="card-img-top" alt="Suite Room">
                     <div class="card-body">
                         <h5 class="card-title">Suite Room</h5>
                         <p class="card-text">Kamar mewah dengan ruang tamu terpisah, jacuzzi pribadi, dan layanan butler.</p>
@@ -226,65 +197,13 @@ $username = $_SESSION['username'];  // Mengambil username dari session
         </div>
     </div>
 
-    <!-- Testimonials -->
+    <!-- Alamat Hotel -->
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Testimoni Tamu</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="review-card">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="images/avatar1.jpg" alt="User" class="rounded-circle me-2" width="40">
-                        <div>
-                            <h6 class="mb-0">Budi Santoso</h6>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p>"Pelayanan sangat memuaskan, kamar bersih dan nyaman. Akan kembali lagi di lain waktu!"</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="review-card">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="images/avatar2.jpg" alt="User" class="rounded-circle me-2" width="40">
-                        <div>
-                            <h6 class="mb-0">Siti Rahayu</h6>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p>"Lokasi strategis, dekat dengan pusat perbelanjaan. Sarapan buffet enak dengan banyak pilihan."</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="review-card">
-                    <div class="d-flex align-items-center mb-2">
-                        <img src="images/avatar3.jpg" alt="User" class="rounded-circle me-2" width="40">
-                        <div>
-                            <h6 class="mb-0">Andi Wijaya</h6>
-                            <div class="text-warning">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <p>"Suite room sangat mewah, pemandangan kota dari kamar luar biasa. Staff hotel ramah dan helpfull."</p>
-                </div>
-            </div>
+        <h2 class="text-center mb-4">Alamat</h2>
+        <div class="iframe-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3238.7409202637746!2d139.7047509741392!3d35.73258972715379!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188dedf33e7059%3A0xea32621efa99d9e2!2zaG90ZWwgU2lybyDmsaDooovvvIjjg5vjg4bjg6sm44Kw44Op44Oz44OU44Oz44Kw77yJ!5e0!3m2!1sid!2sid!4v1744159975962!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
+
     </div>
 
     <!-- Footer -->
@@ -292,22 +211,11 @@ $username = $_SESSION['username'];  // Mengambil username dari session
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h5>Hotel Paradise</h5>
-                    <p>Jl. Merdeka No. 123<br>Jakarta, Indonesia<br>Telp: (021) 1234-5678<br>Email: info@hotelparadise.com</p>
+                    <h5>Hotel Shiro</h5>
                 </div>
                 <div class="col-md-4">
                     <h5>Link Cepat</h5>
                     <ul class="list-unstyled">
-                        <li><a href="index.php" class="text-white">Beranda</a></li>
-                        <li><a href="rooms.php" class="text-white">Kamar</a></li>
-                        <li><a href="facilities.php" class="text-white">Fasilitas</a></li>
-                        <li><a href="contact.php" class="text-white">Kontak</a></li>
-                        <li><a href="about.php" class="text-white">Tentang Kami</a></li>
+                        <li><a href="listkamar.php" class="text-white">Kamar</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <h5>Sosial Media</h5>
-                    <div class="d-flex gap-3 fs-4">
-                        <a href="#" class="text-white"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-

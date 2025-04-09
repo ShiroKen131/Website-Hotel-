@@ -1,5 +1,5 @@
 <?php
-// Start session if not already started
+
 session_start();
 include 'koneksi.php';
 
@@ -12,13 +12,13 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Get search parameters
+
 $check_in = isset($_GET['check_in']) ? $_GET['check_in'] : '';
 $check_out = isset($_GET['check_out']) ? $_GET['check_out'] : '';
 $guests = isset($_GET['guests']) ? (int)$_GET['guests'] : 2;
 $room_type = isset($_GET['room_type']) ? $_GET['room_type'] : '';
 
-// Validate dates
+
 if (empty($check_in) || empty($check_out)) {
     header("Location: index.php?error=dateempty");
     exit();
@@ -29,10 +29,10 @@ if (strtotime($check_out) <= strtotime($check_in)) {
     exit();
 }
 
-// Calculate stay duration
+
 $stay_duration = floor((strtotime($check_out) - strtotime($check_in)) / (60 * 60 * 24));
 
-// Build query to find available rooms
+
 $query = "
     SELECT r.room_id, r.room_number, r.floor, rt.room_type_id, rt.name AS room_type, 
            rt.description, rt.max_capacity, rt.price_per_night, rt.image_url,
@@ -50,12 +50,12 @@ $query = "
     )
 ";
 
-// Apply room type filter if specified
+
 if (!empty($room_type)) {
     $query .= " AND rt.room_type_id = :room_type";
 }
 
-// Apply guest capacity filter
+
 $query .= " AND rt.max_capacity >= :guests";
 $query .= " ORDER BY rt.price_per_night ASC";
 
@@ -72,7 +72,7 @@ if (!empty($room_type)) {
 $stmt->execute();
 $available_rooms = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Store search parameters in session for booking process
+
 $_SESSION['search'] = [
     'check_in' => $check_in,
     'check_out' => $check_out,
@@ -80,7 +80,7 @@ $_SESSION['search'] = [
     'stay_duration' => $stay_duration
 ];
 
-// Get username if logged in (for navbar)
+
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 ?>
 
