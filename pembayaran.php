@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_payment'])) {
     $payment_proof = "";
     
     if (isset($_FILES['payment_proof']) && $_FILES['payment_proof']['error'] == 0) {
-        $target_dir = "uploads/payment_proofs/";
+        $target_dir = "uploads/bukti_pembayaran/";
         
         if (!file_exists($target_dir)) {
             mkdir($target_dir, 0777, true);
