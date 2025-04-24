@@ -19,7 +19,8 @@
         }
         
         header {
-            background-color:#007BFF;
+            background: #199fd4;
+background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(67, 136, 171, 1) 100%);
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -135,7 +136,8 @@
         }
         
         footer {
-            background-color: #007BFF;
+            background: #199fd4;
+            background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(67, 136, 171, 1) 100%);
             color: white;
             text-align: center;
             padding: 20px;
@@ -213,7 +215,7 @@
         </div>
         
         <div class="view-all">
-            <a href="#" class="btn view-all-btn">Lihat Semua Kamar</a>
+            <a href="../client/clientside.php" class="btn view-all-btn">Kembali</a>
         </div>
     </div>
     

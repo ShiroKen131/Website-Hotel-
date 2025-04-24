@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
                     $booking_status = "success";
                     $booking_message = "Pemesanan berhasil dibuat!";
                     
-                    // Redirect ke pembayaran.php di direktori utama (satu level ke atas)
+                
                     header("Location: ../../pembayaran.php?booking_id=" . $booking_id);
                     exit;
                 } else {
@@ -139,7 +139,8 @@ if (isset($_SESSION['user_id'])) {
         }
         
         header {
-            background-color:  #0d6efd;
+            background: #199fd4;
+            background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(67, 136, 171, 1) 100%);
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -267,7 +268,8 @@ if (isset($_SESSION['user_id'])) {
         }
         
         footer {
-            background-color: #0d6efd;
+            background: #199fd4;
+            background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(67, 136, 171, 1) 100%);
             color: white;
             text-align: center;
             padding: 20px;
@@ -387,7 +389,7 @@ if (isset($_SESSION['user_id'])) {
         <a href="../client/clientside.php" class="back-link">← Kembali ke Daftar Kamar</a>
         
         <div class="room-details">
-            <!-- Gallery Images - Conditional based on room type -->
+
             <div class="room-gallery">
                     <div class="main-image">
                     <img src="../../Images/HotelFamily.jpeg">
@@ -398,7 +400,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
             
             <div class="room-info">
-                <!-- Room Info - Conditional based on room type -->
+      
                 <?php if($room['room_type'] == 'Family'): ?>
                     <h2 class="room-title"><?php echo htmlspecialchars($room['room_type']); ?></h2>
                     <p class="room-price">Rp <?php echo number_format($room['price_per_night'], 0, ',', '.'); ?>/malam</p>
@@ -554,21 +556,21 @@ if (isset($_SESSION['user_id'])) {
     </footer>
 
     <script>
-        // Basic client-side validation
+
         document.addEventListener('DOMContentLoaded', function() {
             const checkInInput = document.getElementById('check_in');
             const checkOutInput = document.getElementById('check_out');
             
             if (checkInInput && checkOutInput) {
                 checkInInput.addEventListener('change', function() {
-                    // Set minimum check-out date to be the day after check-in
+               
                     const checkInDate = new Date(this.value);
                     const nextDay = new Date(checkInDate);
                     nextDay.setDate(checkInDate.getDate() + 1);
                     const nextDayStr = nextDay.toISOString().split('T')[0];
                     checkOutInput.min = nextDayStr;
                     
-                    // If current check-out date is before new minimum, update it
+                
                     if (checkOutInput.value && new Date(checkOutInput.value) <= checkInDate) {
                         checkOutInput.value = nextDayStr;
                     }

@@ -2,26 +2,23 @@
 session_start();
 require_once 'koneksi.php'; // Pastikan Anda sudah memiliki file koneksi database
 
-// Cek jika form disubmit
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'];
   $password = $_POST['password'];
   $confirm_password = $_POST['confirm_password'];
 
-  // Validasi input
   $errors = [];
 
-  // Pastikan username tidak kosong
   if (empty($username)) {
       $errors[] = "Username tidak boleh kosong.";
   }
 
-  // Pastikan password dan konfirmasi password cocok
+  // Memastikan password dan mengkonfirmasi password apakah sudah cocok atau belum
   if ($password !== $confirm_password) {
       $errors[] = "Konfirmasi password tidak cocok.";
   }
 
-  // Cek apakah username sudah digunakan
+  // Ngecek username apakah sudah ada 
   $query_username = "SELECT * FROM users WHERE username = ?";
   $stmt = $conn->prepare($query_username);
   $stmt->bind_param("s", $username);
@@ -31,12 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $errors[] = "username sudah digunakan.";
   }
 
-  // Jika tidak ada error, lanjutkan untuk menyimpan data pengguna
+  // ngesave pengguna kalo gak ada salah
   if (empty($errors)) {
       // Hash password
       $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-      // Query untuk menyimpan data pengguna
+      // menyimpan data pengguna ke tabel user
       $query = "INSERT INTO users (username,password) VALUES (?,?)";
       $stmt = $conn->prepare($query);
       $stmt->bind_param("ss", $username, $hashed_password);

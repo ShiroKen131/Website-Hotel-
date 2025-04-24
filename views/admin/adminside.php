@@ -133,7 +133,7 @@ if (isset($_POST['update_status'])) {
                 </div>
             </nav>
 
-            <!-- Main content -->
+            <!-- Konten Utama -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -147,7 +147,7 @@ if (isset($_POST['update_status'])) {
                     </div>
                 </div>
 
-                <!-- Status Messages -->
+                <!-- Status pesanan -->
                 <?php if (isset($_GET['status_updated'])): ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         Status pemesanan berhasil diperbarui!
@@ -155,7 +155,7 @@ if (isset($_POST['update_status'])) {
                     </div>
                 <?php endif; ?>
 
-                <!-- Stats Cards -->
+                <!-- Statistik -->
                 <div class="row mb-4">
                     <div class="col-md-4">
                         <div class="card card-dashboard bg-primary text-white">
@@ -199,7 +199,7 @@ if (isset($_POST['update_status'])) {
                     </div>
                 </div>
 
-                <!-- Booking and Room Tabs -->
+                <!-- Tampilan pemesanan -->
                 <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="bookings-tab" data-bs-toggle="tab"
@@ -216,9 +216,8 @@ if (isset($_POST['update_status'])) {
                     </li>
                 </ul>
 
-                <!-- Tab Content -->
+                <!-- Tab konten -->
                 <div class="tab-content" id="myTabContent">
-                    <!-- Bookings Tab -->
                     <div class="tab-pane fade show active" id="bookings" role="tabpanel" aria-labelledby="bookings-tab">
                         <h3 class="mb-3">Daftar Pemesanan</h3>
                         <div class="table-responsive">
@@ -288,7 +287,7 @@ if (isset($_POST['update_status'])) {
                                                 </td>
                                             </tr>
 
-                                            <!-- Edit Modal -->
+                                            <!-- Edit  -->
                                             <div class="modal fade" id="editModal<?php echo $row['id']; ?>" tabindex="-1"
                                                 aria-labelledby="editModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
                                                 <div class="modal-dialog">
@@ -331,7 +330,7 @@ if (isset($_POST['update_status'])) {
                                                 </div>
                                             </div>
 
-                                            <!-- Detail Modal -->
+                                            <!-- Detail  -->
                                             <div class="modal fade" id="detailModal<?php echo $row['id']; ?>" tabindex="-1"
                                                 aria-labelledby="detailModalLabel<?php echo $row['id']; ?>" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
@@ -412,7 +411,7 @@ if (isset($_POST['update_status'])) {
                         </div>
                     </div>
 
-                    <!-- Rooms Tab -->
+                    <!-- Ruangan -->
                     <div class="tab-pane fade" id="rooms" role="tabpanel" aria-labelledby="rooms-tab">
                         <h3 class="mb-3">Status Kamar</h3>
                         <?php
@@ -451,7 +450,7 @@ if (isset($_POST['update_status'])) {
                                     $currentFloor = $room['floor'];
                                     echo '<div class="col-12 mb-4">
                                         <div class="card">
-                                            <div class="card-header bg-secondary text-white">
+                                            <div class="card-header text-white" style="background-color: #3498db;">
                                                 <h5 class="mb-0">Lantai ' . $room['floor'] . '</h5>
                                             </div>
                                             <div class="card-body">
@@ -512,7 +511,7 @@ if (isset($_POST['update_status'])) {
                         </div>
                     </div>
 
-                    <!-- Payments Tab -->
+                    <!-- Pembayaran -->
                     <div class="tab-pane fade" id="payments" role="tabpanel" aria-labelledby="payments-tab">
                         <h3 class="mb-3">Daftar Pembayaran</h3>
                         <?php
@@ -602,7 +601,7 @@ if (isset($_POST['update_status'])) {
                                                 </td>
                                             </tr>
 
-                                            <!-- Payment Detail Modal -->
+                                            <!-- Detail pembayaran -->
                                             <div class="modal fade" id="paymentDetailModal<?php echo $payment['payment_id']; ?>"
                                                 tabindex="-1"
                                                 aria-labelledby="paymentDetailModalLabel<?php echo $payment['payment_id']; ?>"

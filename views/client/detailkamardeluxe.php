@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
                 $room_id_to_book = $room_201_id;
                 $room_number_booked = "201";
             } else {
-                // Jika 201 sudah dipesan maka ngecek kamar 202
+                // jika 201 sudah dipesan maka ngecek kamar 202
                 $room202_available = checkRoomAvailability($conn, $room_202_id, $check_in, $check_out);
                 
                 if ($room202_available) {
@@ -120,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_booking'])) {
                     $booking_status = "success";
                     $booking_message = "Pemesanan berhasil dibuat untuk kamar " . $room_number_booked . "!";
                     
-                    // Redirect ke pembayaran.php di direktori utama (satu level ke atas)
+        
                     header("Location: ../../pembayaran.php?booking_id=" . $booking_id);
                     exit;
                 } else {
@@ -165,7 +165,8 @@ if (isset($_SESSION['user_id'])) {
         }
         
         header {
-            background-color: #0d6efd;
+            background: #199fd4;
+            background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(93, 171, 67, 1) 100%);
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -294,7 +295,8 @@ if (isset($_SESSION['user_id'])) {
         }
         
         footer {
-            background-color: #0d6efd;
+            background: #199fd4;
+            background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(67, 136, 171, 1) 100%);
             color: white;
             text-align: center;
             padding: 20px;
@@ -534,7 +536,6 @@ if (isset($_SESSION['user_id'])) {
         </div>
         <?php endforeach; ?>
         
-        <!-- Single booking form for both rooms -->
         <div class="booking-form">
             <h3>Pesan Kamar Deluxe</h3>
             <?php if (!isset($_SESSION['user_id'])): ?>
@@ -582,14 +583,14 @@ if (isset($_SESSION['user_id'])) {
         
         if (checkInInput && checkOutInput) {
             checkInInput.addEventListener('change', function() {
-                // Set minimum check-out date to be the day after check-in
+               
                 const checkInDate = new Date(this.value);
                 const nextDay = new Date(checkInDate);
                 nextDay.setDate(checkInDate.getDate() + 1);
                 const nextDayStr = nextDay.toISOString().split('T')[0];
                 checkOutInput.min = nextDayStr;
                 
-                // If current check-out date is before new minimum, update it
+         
                 if (checkOutInput.value && new Date(checkOutInput.value) <= checkInDate) {
                     checkOutInput.value = nextDayStr;
                 }

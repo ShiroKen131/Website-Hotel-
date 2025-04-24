@@ -60,7 +60,8 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         header {
-            background-color: #1a6efd;
+            background: #199fd4;
+background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(67, 136, 171, 1) 100%);
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -91,7 +92,8 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         .confirmation-header {
-            background-color: #0d6efd;
+            background: #199fd4;
+background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(67, 136, 171, 1) 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -238,7 +240,8 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         footer {
-            background-color: #0d6efd;
+            background: #199fd4;
+background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(67, 136, 171, 1) 100%);
             color: white;
             text-align: center;
             padding: 20px;

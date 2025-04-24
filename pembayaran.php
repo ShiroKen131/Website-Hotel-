@@ -10,10 +10,10 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Get booking ID from URL
+
 $booking_id = isset($_GET['booking_id']) ? intval($_GET['booking_id']) : 0;
 
-// Mendapatkan informasi tentang booking berdasarkan username ruangan dan nomor ruangannya
+// mendapatkan informasi tentang booking berdasarkan username ruangan dan nomor ruangannya
 $sql = "SELECT b.*, r.room_number, rt.name as room_type, rt.price_per_night, username as user_name
         FROM bookings b
         JOIN rooms r ON b.room_id = r.room_id
@@ -132,7 +132,8 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         header {
-            background-color: #0d6efd;
+            background: #199fd4;
+background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(67, 136, 171, 1) 100%);
             color: white;
             padding: 20px 0;
             text-align: center;
@@ -354,7 +355,8 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
         }
         
         footer {
-            background-color: #0d6efd;
+            background: #199fd4;
+background: linear-gradient(90deg, rgba(25, 159, 212, 1) 0%, rgba(87, 122, 199, 1) 59%, rgba(67, 136, 171, 1) 100%);
             color: white;
             text-align: center;
             padding: 20px;
@@ -379,8 +381,6 @@ $nights = date_diff($check_in_date, $check_out_date)->days;
     </header>
     
     <div class="container">
-        <a href="room_detail.php?room_id=<?php echo $booking['room_id']; ?>" class="back-link">← Kembali ke Detail Kamar</a>
-        
         <?php if ($payment_message): ?>
         <div class="alert alert-<?php echo $payment_status; ?>">
             <?php echo htmlspecialchars($payment_message); ?>

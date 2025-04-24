@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $_SESSION['username'] = $user['username'];
           $_SESSION['role'] = $user['role']; 
           
-          // Redirect berdasarkan role
+          
           if ($user['role'] == 'admin') {
               header("Location: views/admin/adminside.php");
           } else {
@@ -178,7 +178,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="wrapper">
         <div class="title">Login Form</div>
 
-        <!-- Tampilkan error jika login gagal -->
         <?php if (isset($error)): ?>
             <div style="color: red; text-align: center;">
                 <?php echo $error; ?>
@@ -201,7 +200,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="submit" value="Login"   />
             </div>
             <div class="signup-link">
-                Not a member? <a href="register.php">Signup now</a>
+                Belum punya akun ? Silahkan Login <a href="register.php"> Signup now</a>
             </div>
         </form>
     </div>

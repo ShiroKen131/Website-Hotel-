@@ -259,7 +259,7 @@ if (isset($_POST['delete_room_type'])) {
                 </div>
             </nav>
 
-            <!-- Main content -->
+            <!-- Konten Utama -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div
                     class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -273,7 +273,7 @@ if (isset($_POST['delete_room_type'])) {
                     </div>
                 </div>
 
-                <!-- Status Messages -->
+                <!-- Status Pesanan -->
                 <?php if (isset($success_message)): ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <?php echo $success_message; ?>
@@ -288,7 +288,7 @@ if (isset($_POST['delete_room_type'])) {
                     </div>
                 <?php endif; ?>
 
-                <!-- Management Tabs -->
+
                 <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="rooms-tab" data-bs-toggle="tab" data-bs-target="#rooms"
@@ -296,9 +296,7 @@ if (isset($_POST['delete_room_type'])) {
                     </li>
                 </ul>
 
-                <!-- Tab Content -->
                 <div class="tab-content" id="myTabContent">
-                    <!-- Rooms Tab -->
                     <div class="tab-pane fade show active" id="rooms" role="tabpanel" aria-labelledby="rooms-tab">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h3>Daftar Kamar</h3>
@@ -367,7 +365,7 @@ if (isset($_POST['delete_room_type'])) {
                                                 </td>
                                             </tr>
 
-                                            <!-- Edit Room Modal -->
+                                            <!-- Edit  -->
                                             <div class="modal fade" id="editRoomModal<?php echo $room['room_id']; ?>" tabindex="-1"
                                                 aria-labelledby="editRoomModalLabel<?php echo $room['room_id']; ?>" aria-hidden="true">
                                                 <div class="modal-dialog">
@@ -429,7 +427,7 @@ if (isset($_POST['delete_room_type'])) {
                                                 </div>
                                             </div>
 
-                                            <!-- Delete Room Modal -->
+                                            <!-- Hapus kamar -->
                                             <div class="modal fade" id="deleteRoomModal<?php echo $room['room_id']; ?>" tabindex="-1"
                                                 aria-labelledby="deleteRoomModalLabel<?php echo $room['room_id']; ?>" aria-hidden="true">
                                                 <div class="modal-dialog">
@@ -466,7 +464,7 @@ if (isset($_POST['delete_room_type'])) {
                         </div>
                     </div>
 
-                    <!-- Room Types Tab -->
+                    <!-- Jenis ruangan -->
                     <div class="tab-pane fade" id="room-types" role="tabpanel" aria-labelledby="room-types-tab">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h3>Daftar Tipe Kamar</h3>
@@ -513,7 +511,7 @@ if (isset($_POST['delete_room_type'])) {
                                     </div>
                                 </div>
 
-                                <!-- Edit Room Type Modal -->
+                                <!-- Edit Tipe kamar  -->
                                 <div class="modal fade" id="editRoomTypeModal<?php echo $type['room_type_id']; ?>" tabindex="-1"
                                     aria-labelledby="editRoomTypeModalLabel<?php echo $type['room_type_id']; ?>" aria-hidden="true">
                                     <div class="modal-dialog">
